@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Space</title>
+    <link rel="stylesheet" href="space.css">
+    <script type="text/javascript" src="paper-full.js"></script>
+
+    <script type="text/paperscript" canvas="myCanvas">
+     
+    	
+   //Created Circle Object
+      var myCircle = new Path.Circle(new Point(100, 70), 50);
+      myCircle.fillColor = 'white';
+      myCircle.strokeColor = 'red';
+
+   //Creates on click tool & mouse over tool
+      var tool = new Tool();
+      var myCircle;
+
+    //On Click tool
+      tool.onMouseUp = function(event) {
+        myCircle.fillColor = Color.random('red','blue','purple','orange','grey','white');
+        myCircle.strokeColor = 'white';
+        path.fillColor = 'white';
+        path.strokeColor = 'orange';
+        this.remove(onMouseDown);
+        this.activate(onMouseUp);
+      }
+      
+    //Has circle follow cursor
+      tool.onMouseMove = function(event) {
+        myCircle.position = event.point;
+    }
+
+    tool.onMouseDown = function(event){
+      myCircle.fillColor = 'white';
+        myCircle.strokeColor = 'red';
+        path.fillColor = 'green';
+        path.strokeColor = 'white';
+        this.remove(onMouseUp);
+        this.activate(onMouseDown);
+    }
+    
+    
+    
+    
+   
+      
+
+ 
+     
+      var count = 300;
+
+      var path = new Path.Circle({
+        center: [0, 0],
+        radius: 10,
+        fillColor: 'green',
+        strokeColor: 'white'
+      });
+
+      var symbol = new Symbol(path);
+
+      
+      for (var i = 0; i < count; i++) {
+        var center = Point.random() * view.size;
+        var placedSymbol = symbol.place(center);
+        placedSymbol.scale(i / count);
+      }
+
+      
+      function onFrame(event) {
+        for (var i = 0; i < count; i++) {
+          var item = project.activeLayer.children[i];
+          item.position.x += item.bounds.width / 20;
+          path.fillColor.hue += 5;
+          
+
+          if (item.bounds.left > view.size.width) {
+            item.position.x = -item.bounds.width;
+            
+          }
+
+         
+        }
+      }
+
+     
+
+    
+      
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas" resize></canvas>
+
+    <h1>CLICK LEFT BUTTON ON YOUR MOUSE & DRAG</h1>
+  </body>
+</html>
